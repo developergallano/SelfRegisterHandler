@@ -6,6 +6,7 @@ add_executable(handler
             main.cpp
             src/HandlerResult.cpp
             src/HeaderHandler.cpp
+            src/NonCompliantHandler.cpp
             src/ProtocolHandler.cpp
             )
 
