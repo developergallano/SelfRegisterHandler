@@ -1,14 +1,12 @@
 #include "ProtocolHandler.h"
 #include "Registry.h"
-/*
-RegistrableHandlerPtr createProtocolHandler()
-{
-   return std::make_unique<ProtocolHandler>();
-}
-bool ProtocolHandler::_registered = Registry::instance().add(createProtocolHandler());
-*/
-template<>
-bool SelfRegister<ProtocolHandler>::_registered = SelfRegister<ProtocolHandler>::selfRegister();
+
+#include <iostream>
+
+using RegistrableHandlerRegistry = Registry<IHandler>;
+template<>template<> 
+bool RegistrableHandlerRegistry::SelfRegister<ProtocolHandler>::_registered 
+   = Registry<IHandler>::SelfRegister<ProtocolHandler>::selfRegister();
 
 ProtocolHandler::ProtocolHandler()
 {}
@@ -25,5 +23,6 @@ const std::string& ProtocolHandler::getName() const
 HandlerResult ProtocolHandler::handle(std::string msg)
 {
    HandlerResult result(HandlerResult::Fail, std::string());
+   std::cout << "ProtocolHandler handled." << std::endl;
    return result;   
 }

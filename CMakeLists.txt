@@ -5,12 +5,10 @@ project(SelfRegisterHandler)
 add_executable(handler 
             main.cpp
             src/HandlerResult.cpp
+            src/HeaderHandler.cpp
             src/ProtocolHandler.cpp
-            src/Registry.cpp
             )
 
 include_directories(handler include)
-
-#target_include_directories(handler PUBLIC include/HandlerResult.h)
 
 message("----------------------SelfRegisterHandler End---------------------------")

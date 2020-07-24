@@ -1,11 +1,11 @@
 #pragma once
 #include "IHandler.h"
 
-class ProtocolHandler : public IHandler
+class HeaderHandler : public IHandler
 {
 public:
-   ProtocolHandler();
-   virtual ~ProtocolHandler();
+   HeaderHandler();
+   virtual ~HeaderHandler();
 
    virtual const std::string& getName() const override;
    virtual HandlerResult handle(std::string msg) override;
