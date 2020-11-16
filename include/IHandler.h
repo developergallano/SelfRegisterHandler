@@ -1,10 +1,10 @@
 #pragma once
 #include "HandlerResult.h"
+#include "IRegistryEntry.h"
 
-class IHandler
+class IHandler : public IRegistryEntry
 {
 public:
    virtual~IHandler(){}
-   virtual const std::string& getName() const = 0;
    virtual HandlerResult handle(std::string msg) = 0;
 };

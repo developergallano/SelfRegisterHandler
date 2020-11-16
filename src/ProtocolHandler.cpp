@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-using RegistrableHandlerRegistry = Registry<IHandler>;
+using RegistryeHandlerRegistry = Registry<IHandler>;
 template<>template<> 
-bool RegistrableHandlerRegistry::SelfRegister<ProtocolHandler>::_registered 
+bool RegistryeHandlerRegistry::SelfRegister<ProtocolHandler>::_registered 
    = Registry<IHandler>::SelfRegister<ProtocolHandler>::selfRegister();
 
 ProtocolHandler::ProtocolHandler()
@@ -14,7 +14,7 @@ ProtocolHandler::ProtocolHandler()
 ProtocolHandler::~ProtocolHandler()
 {}
 
-const std::string& ProtocolHandler::getName() const
+const std::string& ProtocolHandler::getRegistryName() const
 {
    static std::string name {"Protocol"};
    return name;

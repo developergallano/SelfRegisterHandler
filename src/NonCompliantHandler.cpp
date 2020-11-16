@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-using RegistrableHandlerRegistry = Registry<INonHandler>;
+using RegistryHandlerPtr = Registry<INonHandler>;
 template<>template<> 
-bool RegistrableHandlerRegistry::SelfRegister<NonCompliantHandler>::_registered 
+bool RegistryHandlerPtr::SelfRegister<NonCompliantHandler>::_registered 
    = Registry<INonHandler>::SelfRegister<NonCompliantHandler>::selfRegister();
 
 NonCompliantHandler::NonCompliantHandler()
@@ -14,7 +14,7 @@ NonCompliantHandler::NonCompliantHandler()
 NonCompliantHandler::~NonCompliantHandler()
 {}
 
-const std::string& NonCompliantHandler::getName() const
+const std::string& NonCompliantHandler::getRegistryName() const
 {
    static std::string noName{"NonCompliantHandler"};
    return noName;

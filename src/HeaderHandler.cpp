@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-using RegistrableHandlerRegistry = Registry<IHandler>;
+using RegistryHandlerPtr = Registry<IHandler>;
 template<>template<> 
-bool RegistrableHandlerRegistry::SelfRegister<HeaderHandler>::_registered 
+bool RegistryHandlerPtr::SelfRegister<HeaderHandler>::_registered 
    = Registry<IHandler>::SelfRegister<HeaderHandler>::selfRegister();
 
 HeaderHandler::HeaderHandler()
@@ -14,7 +14,7 @@ HeaderHandler::HeaderHandler()
 HeaderHandler::~HeaderHandler()
 {}
 
-const std::string& HeaderHandler::getName() const
+const std::string& HeaderHandler::getRegistryName() const
 {
    static std::string name {"Header"};
    return name;
