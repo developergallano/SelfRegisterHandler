@@ -30,6 +30,13 @@ int main(int argc, char* argv[])
       stringParser->parse(strToParse);
    }
 
+   Type periodType = Type::Period;
+   auto& periodParser = Registry<Type,Parser>::instance().get(periodType);
+   if( periodParser.get() )
+   {
+      periodParser->parse(strToParse);
+   }
+
 
    std::string handler{argv[1]};
    auto& prot = Registry<std::string,IHandler>::instance().get(handler);

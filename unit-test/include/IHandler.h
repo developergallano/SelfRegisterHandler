@@ -1,6 +1,6 @@
 #pragma once
 #include "HandlerResult.h"
-#include "IRegistryEntry.h"
+#include "Registry.h"
 
 class IHandler : public IRegistryEntry<std::string>
 {

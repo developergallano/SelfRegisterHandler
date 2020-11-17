@@ -15,8 +15,8 @@ const Type& StreamParser::getRegistryType() const
     return type;
 }
 
-void StreamParser::parse(std::string&)
+std::string StreamParser::parse(std::string& str)
 {
-
+    return "StreamParser:" + str;
 }
 

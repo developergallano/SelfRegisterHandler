@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "IRegistryEntry.h"
+#include "Registry.h"
 
 enum Type
 {
@@ -14,5 +14,5 @@ class Parser : public IRegistryEntry<Type>
 {
 public:
     virtual const Type& getRegistryType() const = 0;
-    virtual void parse(std::string& str) = 0;
+    virtual std::string parse(std::string& str) = 0;
 };

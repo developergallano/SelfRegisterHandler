@@ -5,7 +5,7 @@
 
 /*
  * this class template is use to enforce template argument
- * to implement 'getRegistryName' method
+ * to implement 'getRegistryType' method
  */
 template <typename T>
 class Has_getRegistryType
@@ -17,6 +17,17 @@ private:
     template <typename C> static No& test(...);
 public:
     enum { value = sizeof(test<T>(0)) == sizeof(Yes) };
+};
+
+/*
+ * IRegistryEntry defines an interface for a regitry entry
+ */
+template<typename T>
+class IRegistryEntry
+{
+public:
+   virtual~IRegistryEntry(){}
+   virtual const T& getRegistryType() const = 0;
 };
 
 /*
@@ -43,13 +54,14 @@ public:
     */
    bool add(RegistryHandlerPtr reg)
    {
-      if( reg )
+      // the key should not exists for add to succeed
+      if( reg.get() == nullptr || _map.find(reg->getRegistryType()) != _map.end() )
       {
-         _map[reg->getRegistryType()] = std::move(reg);
-         return true;
+         return false;
       }
-      return false;
 
+      _map[reg->getRegistryType()] = std::move(reg);
+      return true;
    }
 
    /*

@@ -15,8 +15,8 @@ const Type& StringParser::getRegistryType() const
     return type;
 }
 
-void StringParser::parse(std::string&)
+std::string StringParser::parse(std::string& str)
 {
-
+    return "StringParser:" + str;
 }
 
