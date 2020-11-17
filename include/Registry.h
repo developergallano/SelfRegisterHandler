@@ -8,12 +8,12 @@
  * to implement 'getRegistryName' method
  */
 template <typename T>
-class Has_getRegistryName
+class Has_getRegistryType
 {
 private:
     typedef char Yes[1];
     typedef char No[2];
-    template <typename C> static Yes& test( decltype(&C::getRegistryName) ) ;
+    template <typename C> static Yes& test( decltype(&C::getRegistryType) ) ;
     template <typename C> static No& test(...);
 public:
     enum { value = sizeof(test<T>(0)) == sizeof(Yes) };
@@ -24,13 +24,13 @@ public:
  * The type InterfaceT must have a 'getRegistryName()' method enforced by
  * enable_if
  */
-template<typename InterfaceT, 
-         typename std::enable_if<Has_getRegistryName<InterfaceT>::value, bool>::type = 0 >
+template<typename RegT, typename InterfaceT, 
+         typename std::enable_if<Has_getRegistryType<InterfaceT>::value, bool>::type = 0 >
 class Registry
 {
 public:
    using RegistryHandlerPtr = std::unique_ptr<InterfaceT>;
-   using RegistryMap = std::map<std::string, RegistryHandlerPtr>;
+   using RegistryMap = std::map<RegT, RegistryHandlerPtr>;
 
    static Registry& instance()
    {
@@ -45,7 +45,7 @@ public:
    {
       if( reg )
       {
-         _map[reg->getRegistryName()] = std::move(reg);
+         _map[reg->getRegistryType()] = std::move(reg);
          return true;
       }
       return false;
@@ -55,11 +55,11 @@ public:
    /*
     * access to the object given a name
     */
-   RegistryHandlerPtr& get(std::string registryName)
+   RegistryHandlerPtr& get(RegT registry)
    {
-      if( _map.find(registryName) != _map.end() )
+      if( _map.find(registry) != _map.end() )
       {
-         return _map[registryName];
+         return _map[registry];
       }
 
       static RegistryHandlerPtr ptr;

@@ -3,10 +3,10 @@
 
 #include <iostream>
 
-using RegistryeHandlerRegistry = Registry<IHandler>;
+using RegistryeHandlerRegistry = Registry<std::string,IHandler>;
 template<>template<> 
 bool RegistryeHandlerRegistry::SelfRegister<ProtocolHandler>::_registered 
-   = Registry<IHandler>::SelfRegister<ProtocolHandler>::selfRegister();
+   = RegistryeHandlerRegistry::SelfRegister<ProtocolHandler>::selfRegister();
 
 ProtocolHandler::ProtocolHandler()
 {}
@@ -14,7 +14,7 @@ ProtocolHandler::ProtocolHandler()
 ProtocolHandler::~ProtocolHandler()
 {}
 
-const std::string& ProtocolHandler::getRegistryName() const
+const std::string& ProtocolHandler::getRegistryType() const
 {
    static std::string name {"Protocol"};
    return name;

@@ -3,10 +3,10 @@
 
 #include <iostream>
 
-using RegistryHandlerPtr = Registry<IHandler>;
+using RegistryeHandlerRegistry = Registry<std::string, IHandler>;
 template<>template<> 
-bool RegistryHandlerPtr::SelfRegister<HeaderHandler>::_registered 
-   = Registry<IHandler>::SelfRegister<HeaderHandler>::selfRegister();
+bool RegistryeHandlerRegistry::SelfRegister<HeaderHandler>::_registered 
+   = RegistryeHandlerRegistry::SelfRegister<HeaderHandler>::selfRegister();
 
 HeaderHandler::HeaderHandler()
 {}
@@ -14,7 +14,7 @@ HeaderHandler::HeaderHandler()
 HeaderHandler::~HeaderHandler()
 {}
 
-const std::string& HeaderHandler::getRegistryName() const
+const std::string& HeaderHandler::getRegistryType() const
 {
    static std::string name {"Header"};
    return name;

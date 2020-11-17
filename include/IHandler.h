@@ -2,7 +2,7 @@
 #include "HandlerResult.h"
 #include "IRegistryEntry.h"
 
-class IHandler : public IRegistryEntry
+class IHandler : public IRegistryEntry<std::string>
 {
 public:
    virtual~IHandler(){}

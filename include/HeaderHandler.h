@@ -7,7 +7,7 @@ public:
    HeaderHandler();
    virtual ~HeaderHandler();
 
-   virtual const std::string& getRegistryName() const override;
+   virtual const std::string& getRegistryType() const override;
    virtual HandlerResult handle(std::string msg) override;
 };
 

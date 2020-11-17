@@ -8,6 +8,8 @@ add_executable(handler
             src/HeaderHandler.cpp
             src/NonCompliantHandler.cpp
             src/ProtocolHandler.cpp
+            src/StreamParser.cpp
+            src/StringParser.cpp
             )
 
 include_directories(handler include)
