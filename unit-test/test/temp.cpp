@@ -12,4 +12,5 @@ enum Test
 TEST_CASE("instantiate-test")
 {
     //InstanceRegistry<Test,std::string>::instance().get(Test::Fail);
+    InstanceRegistry<Test,std::string>::instance().
 }

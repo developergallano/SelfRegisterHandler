@@ -14,6 +14,7 @@ add_executable(Registry.ut
             #unit-test/src/ProtocolHandler.cpp
             #unit-test/src/StreamParser.cpp
             #unit-test/src/StringParser.cpp
+            
             )
 
 include_directories(handler . )# unit-test/include)
