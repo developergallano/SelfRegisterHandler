@@ -20,14 +20,22 @@ public:
 };
 
 /*
- * IRegistryEntry defines an interface for a regitry entry
+ * IRegistryEntry defines an interface for a registry entry
  */
-template<typename T>
+template<typename TKey, typename TValue>
 class IRegistryEntry
 {
 public:
+   IRegistryEntry(TKey key, TValue value) 
+   : _key(key)
+   , _value(value)
+   {}
    virtual~IRegistryEntry(){}
-   virtual const T& getRegistryType() const = 0;
+   virtual const TKey& getKey() const{ return _key; }
+   virtual TValue& getValue() { return _value; }
+private:
+   TKey _key;
+   TValue _value;
 };
 
 /*
@@ -35,13 +43,13 @@ public:
  * The type InterfaceT must have a 'getRegistryName()' method enforced by
  * enable_if
  */
-template<typename RegT, typename InterfaceT, 
-         typename std::enable_if<Has_getRegistryType<InterfaceT>::value, bool>::type = 0 >
+template<typename TKey, typename TValue> 
+         //typename std::enable_if<Has_getRegistryType<InterfaceT>::value, bool>::type = 0 >
 class Registry
 {
 public:
-   using RegistryHandlerPtr = std::unique_ptr<InterfaceT>;
-   using RegistryMap = std::map<RegT, RegistryHandlerPtr>;
+   using RegistryEntry = IRegistryEntry<TKey, TValue>;
+   using RegistryMap = std::map<TKey, RegistryEntry>;
 
    static Registry& instance()
    {
@@ -52,30 +60,30 @@ public:
    /*
     * this adds the handler to the registry
     */
-   bool add(RegistryHandlerPtr reg)
+   bool add(RegistryEntry reg)
    {
       // the key should not exists for add to succeed
-      if( reg.get() == nullptr || _map.find(reg->getRegistryType()) != _map.end() )
+      if( _map.find(reg->getKey()) != _map.end() )
       {
          return false;
       }
 
-      _map[reg->getRegistryType()] = std::move(reg);
+      _map[reg->getKey()] = std::move(reg);
       return true;
    }
 
    /*
     * access to the object given a name
     */
-   RegistryHandlerPtr& get(RegT registry)
+   TValue& get(TKey key)
    {
-      if( _map.find(registry) != _map.end() )
+      if( _map.find(key) != _map.end() )
       {
-         return _map[registry];
+         return _map[key].getValue();
       }
 
-      static RegistryHandlerPtr ptr;
-      return ptr;
+      static TValue value;
+      return value;
    }
 
 private:
@@ -85,28 +93,30 @@ private:
    RegistryMap _map;
 
 
+};
+
+template<typename TKey, typename TValue,
+   typename std::enable_if<std::is_default_constructible<TValue>::value, bool>::type = 0 >
+class InstanceRegistry : public Registry<TKey,TValue>
+{
 public:
    /*
-    * this is the template allow a class to declare self registering method
-    */
-   template< typename T,
-             typename std::enable_if<std::is_base_of<InterfaceT, T>::value, bool>::type = 0,
-             typename std::enable_if<std::is_default_constructible<T>::value, bool>::type = 0 >
-
-   class SelfRegister
+   * method to self register an object
+   */
+   static bool selfRegister()
    {
-      /*
-       * method to self register an object
-       */
-      static bool selfRegister()
-      {
-         return Registry::instance().add(std::make_unique<T>());
-      }
-   private:
+      return Registry<TKey,TValue>::instance().add(std::make_unique<TValue>());
+   }
+private:
 
-      /*
-       * indicator that the type is registered
-       */
-      static bool _registered;
-   };
+   /*
+      * indicator that the type is registered
+      */
+   static bool _registered;
+};
+   
+
+class CreatorRegistry
+{
+
 };
