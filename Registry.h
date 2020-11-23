@@ -20,17 +20,18 @@ public:
 };
 
 /*
- * IRegistryEntry defines an interface for a registry entry
+ * RegistryEntry defines an interface for a registry entry
  */
 template<typename TKey, typename TValue>
-class IRegistryEntry
+class RegistryEntry
 {
 public:
-   IRegistryEntry(TKey key, TValue value) 
+   RegistryEntry<TKey,TValue>(){}
+   RegistryEntry<TKey,TValue>(TKey key, TValue value) 
    : _key(key)
    , _value(value)
    {}
-   virtual~IRegistryEntry(){}
+   virtual~RegistryEntry(){}
    virtual const TKey& getKey() const{ return _key; }
    virtual TValue& getValue() { return _value; }
 private:
@@ -48,8 +49,8 @@ template<typename TKey, typename TValue>
 class Registry
 {
 public:
-   using RegistryEntry = IRegistryEntry<TKey, TValue>;
-   using RegistryMap = std::map<TKey, RegistryEntry>;
+   using Entry = RegistryEntry<TKey, TValue>;
+   using RegistryMap = std::map<TKey, Entry>;
 
    static Registry& instance()
    {
@@ -60,15 +61,15 @@ public:
    /*
     * this adds the handler to the registry
     */
-   bool add(RegistryEntry reg)
+   bool add(Entry reg)
    {
       // the key should not exists for add to succeed
-      if( _map.find(reg->getKey()) != _map.end() )
+      if( _map.find(reg.getKey()) != _map.end() )
       {
          return false;
       }
 
-      _map[reg->getKey()] = std::move(reg);
+      _map[reg.getKey()] = std::move(reg);
       return true;
    }
 
@@ -103,16 +104,10 @@ public:
    /*
    * method to self register an object
    */
-   static bool selfRegister()
+   static bool selfRegister(TKey key, TValue value)
    {
-      return Registry<TKey,TValue>::instance().add(std::make_unique<TValue>());
+      return Registry<TKey,TValue>::instance().add(RegistryEntry<TKey, TValue>(key, value));
    }
-private:
-
-   /*
-      * indicator that the type is registered
-      */
-   static bool _registered;
 };
    
 

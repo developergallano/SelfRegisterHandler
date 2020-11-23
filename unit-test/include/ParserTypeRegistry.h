@@ -10,7 +10,7 @@ enum Type
     String
 };
 
-class Parser : public IRegistryEntry<Type>
+class Parser : public RegistryEntry<Type, std::string>
 {
 public:
     virtual const Type& getRegistryType() const = 0;

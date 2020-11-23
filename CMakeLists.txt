@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0.0)
 project(SelfRegisterHandler)
 
 add_executable(Registry.ut 
-            unit-test/test/temp.cpp
+            unit-test/test/stringTest.cpp
             #unit-test/test/parser-test.cpp
             #unit-test/test/ihandler-test.cpp
 
