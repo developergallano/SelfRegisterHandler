@@ -1,18 +1,13 @@
 #include "StringParser.h"
 #include "Registry.h"
 
-using RegistryeHandlerRegistry = Registry<Type,Parser>;
-template<>template<> 
-bool RegistryeHandlerRegistry::SelfRegister<StringParser>::_registered 
-   = RegistryeHandlerRegistry::SelfRegister<StringParser>::selfRegister();
+
+using SelfRegister = SelfRegisterRegistry<Type, Parser>;
+template<>template<> bool SelfRegister::InstReg<Type::String>::_registered = SelfRegister::registerEntry(Type::String, StringParser());
 
 StringParser::StringParser()
-{}
-
-const Type& StringParser::getRegistryType() const
 {
-    static Type type = Type::String;
-    return type;
+    _type = Type::String;
 }
 
 std::string StringParser::parse(std::string& str)

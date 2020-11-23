@@ -3,11 +3,14 @@
 
 #include <iostream>
 
-using RegistryeHandlerRegistry = Registry<std::string,IHandler>;
-template<>template<> 
-bool RegistryeHandlerRegistry::SelfRegister<ProtocolHandler>::_registered 
-   = RegistryeHandlerRegistry::SelfRegister<ProtocolHandler>::selfRegister();
+//using SelfRegister = SelfRegisterRegistry<Type, Parser>;
+//template<>template<> bool SelfRegister::InstReg<Type::Stream>::_registered = SelfRegister::registerEntry(Type::Stream, StreamParser());
 
+
+constexpr auto PROTOCOLHANDLER{"ProtocolHandler"};
+//using SelfRegister = SelfRegisterRegistry<std::string,IHandler>;
+//template<>template<> bool SelfRegister::InstReg<PROTOCOLHANDLER>::_registered = false;//SelfRegister::InstReg<PROTOCOLHANDLER>();//
+/*
 ProtocolHandler::ProtocolHandler()
 {}
 
@@ -26,3 +29,4 @@ HandlerResult ProtocolHandler::handle(std::string msg)
    std::cout << "ProtocolHandler handled." << std::endl;
    return result;   
 }
+*/

@@ -59,6 +59,14 @@ public:
    }
 
    /*
+    * register an entry
+    */
+   static bool registerEntry(TKey key, TValue value)
+   {
+      return instance().add(RegistryEntry<TKey, TValue>(key, value));
+   }
+
+   /*
     * this adds the handler to the registry
     */
    bool add(Entry reg)
@@ -96,18 +104,18 @@ private:
 
 };
 
-template<typename TKey, typename TValue,
-   typename std::enable_if<std::is_default_constructible<TValue>::value, bool>::type = 0 >
-class InstanceRegistry : public Registry<TKey,TValue>
+template<typename TKey, typename TValue>//,
+   //typename std::enable_if<std::is_default_constructible<TValue>::value, bool>::type = 0 >
+class SelfRegisterRegistry : public Registry<TKey,TValue>
 {
 public:
-   /*
-   * method to self register an object
-   */
-   static bool selfRegister(TKey key, TValue value)
+private:
+   template<TKey>
+   class InstReg
    {
-      return Registry<TKey,TValue>::instance().add(RegistryEntry<TKey, TValue>(key, value));
-   }
+   public:
+      static bool _registered;
+   };
 };
    
 

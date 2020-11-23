@@ -15,25 +15,16 @@ TEST_CASE("Parser tests")
    auto& parser = Registry<Type,Parser>::instance().get(type);
 
    // a parser of type Type::Stream exists, it should succeed getting the parser
-   REQUIRE( parser.get() );
-   if( parser.get() )
-   {
-      auto retVal = parser->parse(strToParse);
-      REQUIRE(retVal == "StreamParser:str");
-   }
+   std::string retVal1 = parser.parse(strToParse);
+   REQUIRE(retVal1 == "StreamParser:str");
 
    // a parser of type Type::String exists, it should succeed getting the parser
    Type stringType = Type::String;
    auto& stringParser = Registry<Type,Parser>::instance().get(stringType);
-   REQUIRE( stringParser.get() );
-   if( stringParser.get() )
-   {
-      auto retVal = stringParser->parse(strToParse);
-      REQUIRE(retVal == "StringParser:str");
-   }
+   std::string retVal2 = stringParser.parse(strToParse);
+   REQUIRE(retVal2 == "StringParser:str");
 
    // a parser of type Type::Period does not exist, it should fail getting the parser
    Type periodType = Type::Period;
    auto& periodParser = Registry<Type,Parser>::instance().get(periodType);
-   REQUIRE( periodParser.get() == nullptr);   
 }

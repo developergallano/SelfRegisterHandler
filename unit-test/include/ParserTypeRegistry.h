@@ -1,18 +1,21 @@
 #pragma once
 #include <string>
-#include "Registry.h"
+//#include "Registry.h"
 
 enum Type
-{
+{   
+    None,
     Stream,
     Char,
     Period,
     String
 };
 
-class Parser : public RegistryEntry<Type, std::string>
+class Parser 
 {
 public:
-    virtual const Type& getRegistryType() const = 0;
-    virtual std::string parse(std::string& str) = 0;
+    virtual const Type& getRegistryType() const{ return _type;};
+    virtual std::string parse(std::string& str) {return std::string(); };
+protected:
+    Type _type{Type::None};
 };
