@@ -2,8 +2,8 @@
 #include "Registry.h"
 
 
-using SelfRegister = SelfRegisterRegistry<Type, Parser>;
-template<>template<> bool SelfRegister::InstReg<Type::String>::_registered = SelfRegister::registerEntry(Type::String, StringParser());
+using SelfRegisterPtr = SelfRegisterRegistry<Type, ParserPtr>;
+template<>template<> bool SelfRegisterPtr::InstReg<Type::String>::_registered = SelfRegisterPtr::registerEntry(Type::String, std::make_unique<StringParser>());
 
 StringParser::StringParser()
 {

@@ -6,9 +6,9 @@ project(SelfRegisterHandler)
 add_executable(Registry.ut 
             unit-test/test/stringTest.cpp
             unit-test/test/parser-test.cpp
-            #unit-test/test/ihandler-test.cpp
+            unit-test/test/ihandler-test.cpp
 
-            #unit-test/src/HandlerResult.cpp
+            unit-test/src/HandlerResult.cpp
             #unit-test/src/HeaderHandler.cpp
             #unit-test/src/NonCompliantHandler.cpp
             unit-test/src/ProtocolHandler.cpp
@@ -19,6 +19,6 @@ add_executable(Registry.ut
 
 include_directories(handler unit-test/include .)
 
-target_compile_options(Registry.ut PRIVATE -std=c++2a)
+target_compile_options(Registry.ut PRIVATE -std=c++2a -fconcepts)
 
 message("----------------------SelfRegisterHandler End---------------------------")

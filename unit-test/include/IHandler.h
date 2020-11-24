@@ -1,10 +1,13 @@
 #pragma once
+#include <memory>
 #include "HandlerResult.h"
 #include "Registry.h"
 
-class IHandler //: public RegistryEntry<std::string, IHandler>
+class Handler 
 {
 public:
-   virtual~IHandler(){}
+   virtual~Handler(){}
    virtual HandlerResult handle(std::string) {return HandlerResult{HandlerResult::Fail, std::string("Default")}; };
 };
+
+using HandlerPtr = std::unique_ptr<Handler>;

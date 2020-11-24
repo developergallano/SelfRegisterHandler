@@ -1,7 +1,7 @@
 #pragma once
 #include "IHandler.h"
 
-class ProtocolHandler : public IHandler
+class ProtocolHandler : public Handler
 {
 public:
    ProtocolHandler();
@@ -9,5 +9,7 @@ public:
 
    //virtual const std::string& getRegistryType() const override;
    virtual HandlerResult handle(std::string msg) override;
+
+   static const char PROTOCOLHANDLER[];
 };
 

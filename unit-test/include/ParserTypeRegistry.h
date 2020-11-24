@@ -1,6 +1,6 @@
 #pragma once
+#include <memory>
 #include <string>
-//#include "Registry.h"
 
 enum Type
 {   
@@ -19,3 +19,5 @@ public:
 protected:
     Type _type{Type::None};
 };
+
+using ParserPtr = std::unique_ptr<Parser>;
