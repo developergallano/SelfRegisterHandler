@@ -4,6 +4,7 @@
 #include <map>
 #include <memory>
 #include <type_traits>
+#include <functional>
 
 /*
  * this class template is use to enforce template argument
@@ -102,13 +103,17 @@ public:
       return value;
    }
 
+   bool exists(TKey key)
+   {
+      return _map.find(key) != _map.end();
+   }
+
+
 private:
    /*
     * this is the map that holds the registry
     */
    RegistryMap _map;
-
-
 };
 
 /*
@@ -129,10 +134,39 @@ private:
    };
 };
    
+/*
+ * 
+ */
+template<typename TKey, typename TValue>
+class Factory
+{
+public:
+   template<typename... TArgs>
+   static TValue create(TKey key, TArgs... args)
+   {
+      using Func = std::function<TValue(TArgs...)>;
+      if(! SelfRegisterRegistry<TKey, Func>::instance().exists(key) )
+      {
+         TValue value;
+         return value;
+      }
+      auto creator = SelfRegisterRegistry<TKey,Func>::instance().get(key);
+      auto ret = creator(args...);
+      return std::move(ret);
+   }
 
-class CreatorRegistry
+   template<typename... TArgs>
+   static bool registerCreator(TKey key, std::function<TValue(TArgs...)> creator)
+   {
+      using Func = std::function<TValue(TArgs...)>;
+      return SelfRegisterRegistry<TKey,Func>::instance().registerEntry(key, creator);
+   }
+};
+
+class LifeCycleManager
 {
 
 };
+
 
 #endif //__REGISTRY_H__

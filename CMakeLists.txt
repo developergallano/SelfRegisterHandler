@@ -22,3 +22,5 @@ include_directories(handler unit-test/include .)
 target_compile_options(Registry.ut PRIVATE -std=c++2a -fconcepts)
 
 message("----------------------SelfRegisterHandler End---------------------------")
+
+add_subdirectory(unit-test/factory_sample)
