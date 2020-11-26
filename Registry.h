@@ -151,7 +151,7 @@ public:
          return value;
       }
       auto creator = SelfRegisterRegistry<TKey,Func>::instance().get(key);
-      auto ret = creator(std::forward<TArgs...>(args...));
+      auto ret = creator(std::forward<TArgs...>(args... ));
       return std::move(ret);
    }
 
